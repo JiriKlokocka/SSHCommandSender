@@ -1,5 +1,8 @@
-﻿using Renci.SshNet;
+﻿using Microsoft.Extensions.Logging;
+using Renci.SshNet;
+using System.ComponentModel.Design;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 
@@ -10,6 +13,7 @@ namespace UpgradeSwitches
 {
     internal class Program
     {
+        private static LogWriter logWriter;
         private ShellStream stream;
         private SshClient sshclient;
         private List<string> switches = new List<string>();
@@ -23,15 +27,18 @@ namespace UpgradeSwitches
 
         static void Main(string[] args)
         {
-            Log("\n\nPouziti: (zadne prepinace, jen stringy s mezerami bez zavorek v nasledujicim poradi", ConsoleColor.Yellow);
-            Log("UpgradeSwitches [Tftp IP] [Image Name] [User Name] [Password]\n", ConsoleColor.Yellow);
-            Log("Soubor se seznamem switchu: switches-list.txt (co radek to IP adresa) \n\n", ConsoleColor.Yellow);
+            
             Program program = new();
             program.Start(args);
         }
 
 
         public void Start(string[] args) {
+
+            logWriter = new();
+            Log("Pouziti: (zadne prepinace, jen stringy s mezerami bez zavorek v nasledujicim poradi", ConsoleColor.Yellow);
+            Log("UpgradeSwitches [Tftp IP] [Image Name] [User Name] [Password]\n", ConsoleColor.Yellow);
+            Log("Soubor se seznamem switchu: switches-list.txt (co radek to IP adresa) \n", ConsoleColor.Yellow);
 
             if (args.Length == 4)       //Nacteni parametru
             {
@@ -61,7 +68,7 @@ namespace UpgradeSwitches
             switches = new List<string>(switchesListFileContent);
 
             foreach (string switchIp in switches) {
-                Log($"\nSwitch IP: {switchIp}", ConsoleColor.Yellow);
+                Log($"------ Switch IP: {switchIp} ------", ConsoleColor.Yellow);
                 try //zachyceni pripadne chyby
                 {
                     //Pripojeni SSH
@@ -69,23 +76,20 @@ namespace UpgradeSwitches
                     var sshClient = new Renci.SshNet.SshClient(connInfo);
                     sshClient.Connect();
 
-                    //Vytvorteni a odeslani prikazu
+                    //Vytvorteni prikazu
                     string commandText = $"download image tftp://{tftpServerIP}/Extreme/{imageName} "; // partition primary install reboot
                     //https://documentation.extremenetworks.com/exos_32.3/GUID-40C25AA2-D2FE-4715-B4CA-2B7137629CA3.shtml
 
-                    //string commandText = $"dir"; // Slot ????
-                    Log($"{commandText}", ConsoleColor.Cyan);
-                    using (var command = sshClient.CreateCommand(commandText))
-                    {
-                        var output = command.Execute();
-                        if(command.ExitStatus !=0)
-                        {
-                            Log($"ExitStatus:{command.ExitStatus}", ConsoleColor.Red);
-                            Log($"Error:{command.Error}", ConsoleColor.Red);
-                        }
-                        Log($"{output}", ConsoleColor.Green);
-                        
-                    }
+                    Log($"Command:", ConsoleColor.Gray);
+                    Log($"{commandText}", ConsoleColor.Cyan); // Vypis odesilaneho prikazu
+                    Log($"Response:", ConsoleColor.Gray);
+                    SendCommand(sshClient, commandText);      // Odeslani prikazu + vypis vysledku
+
+                    Log($"Command:", ConsoleColor.Gray);
+                    Log($"{commandText}", ConsoleColor.Cyan); // Vypis odesilaneho prikazu
+                    Log($"Response:", ConsoleColor.Gray);
+                    SendCommand(sshClient, "ping -n 4 127.0.0.1"); //Odeslani prikazu  + vypis vysledku
+
                     sshClient.Disconnect();
                 }
                 catch (Exception ex) {
@@ -94,18 +98,37 @@ namespace UpgradeSwitches
             }
         }
 
+
+        //funkce na vytvoreni a exekuci prikazu v SSH
+        private void SendCommand(SshClient sshClient, string commandText)
+        {
+            using (var command = sshClient.CreateCommand(commandText))
+            {
+                var output = command.Execute();
+                if (command.ExitStatus != 0)
+                {
+                    Log($"ExitStatus:{command.ExitStatus}", ConsoleColor.Red);
+                    Log($"Error:{command.Error}", ConsoleColor.Red);
+                }
+                Log($"{output}", ConsoleColor.Green);
+            }
+        }
+
+
         //Logovaci funkce
-        private static void Log(string txt, ConsoleColor color)
+        private  void Log(string txt, ConsoleColor color)
         {
             Console.ForegroundColor = color;
             Console.WriteLine(txt);
             Console.ForegroundColor = ConsoleColor.Gray;
+            logWriter.Log(txt);
         }
 
-        private static void Log(string txt)
+        private  void Log(string txt)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(txt);
+            logWriter.Log(txt);
         }
 
     }
@@ -116,5 +139,14 @@ SshCommand sc = sshclient.CreateCommand("mkdir ____TESTDIR");
 sc.Execute();
 string answer = sc.Result;
 Console.WriteLine(answer);
+
+
+using (var command = sshClient.CreateCommand(commandText))
+                    {
+                        var asyncExecute = command.BeginExecute();
+                        command.OutputStream.CopyTo(Console.OpenStandardOutput());
+                        command.EndExecute(asyncExecute);
+                    }
+
 */
 
