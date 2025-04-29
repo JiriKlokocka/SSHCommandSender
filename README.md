@@ -16,6 +16,9 @@ Všechny 4 příkazy a proměnné nemusí být nutně zadány
 
 EXE je v adresáři `exe`, potřebuje .NET runtime 8
 
+https://aka.ms/dotnet-core-applaunch?missing_runtime=true&arch=x64&rid=win-x64&os=win10&apphost_version=8.0.8
+
+
 ```
 {
   "sshUserName": "sshtest",
