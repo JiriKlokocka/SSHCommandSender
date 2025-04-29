@@ -280,19 +280,5 @@ namespace SSHCommandSender
     }
 }
 
-/*
-SshCommand sc = sshclient.CreateCommand("mkdir ____TESTDIR");
-sc.Execute();
-string answer = sc.Result;
-Console.WriteLine(answer);
 
-
-using (var command = sshClient.CreateCommand(commandText))
-                    {
-                        var asyncExecute = command.BeginExecute();
-                        command.OutputStream.CopyTo(Console.OpenStandardOutput());
-                        command.EndExecute(asyncExecute);
-                    }
-
-*/
 
