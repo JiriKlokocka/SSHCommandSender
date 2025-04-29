@@ -8,7 +8,7 @@
   "sshCommand1": "Command1: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#",
   "sshCommand2": "Command2: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#",
   "sshCommand3": "Command3: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#",
-  "sshCommand4": "",
+  "sshCommand4": " ",
   "sshIpList": [
     "10.40.1.162",
     "10.40.1.163",
