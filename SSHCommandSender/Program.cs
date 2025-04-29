@@ -197,19 +197,19 @@ namespace SSHCommandSender
         {
             if(!string.IsNullOrEmpty(commandText)) {
                 if (!string.IsNullOrEmpty(config.sshVariable1)) {
-                    commandText = commandText.Replace("#sshParam1#", config.sshVariable1); 
+                    commandText = commandText.Replace("#sshVariable1#", config.sshVariable1); 
                 }
                 if (!string.IsNullOrEmpty(config.sshVariable2))
                 {
-                    commandText = commandText.Replace("#sshParam2#", config.sshVariable2);
+                    commandText = commandText.Replace("#sshVariable2#", config.sshVariable2);
                 }
                 if (!string.IsNullOrEmpty(config.sshVariable3))
                 {
-                    commandText = commandText.Replace("#sshParam3#", config.sshVariable3);
+                    commandText = commandText.Replace("#sshVariable3#", config.sshVariable3);
                 }
                 if (!string.IsNullOrEmpty(config.sshVariable4))
                 {
-                    commandText = commandText.Replace("#sshParam4#", config.sshVariable4);
+                    commandText = commandText.Replace("#sshVariable4#", config.sshVariable4);
                 }
                 return commandText;
             } else
