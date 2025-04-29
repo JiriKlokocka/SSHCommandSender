@@ -1,0 +1,64 @@
+
+Program start : 28.04.2025 16:31
+-------------------------------
+16:31: Pouziti: (zadne prepinace, jen stringy s mezerami bez zavorek v nasledujicim poradi
+16:31: UpgradeSwitches [Tftp IP] [Image Name] [User Name] [Password]
+
+16:31: Soubor se seznamem switchu: switches-list.txt (co radek to IP adresa) 
+
+16:31: Chybny pocet parametru nebo nezadane parametry.
+16:31: Byly pouzity vychozi hodnoty.
+16:31: Parametry:
+16:31: Tftp IP: 0.0.0.0
+16:31: Image Name: summitX-32.7.1.9-patch1-68.xos
+16:31: User Name: sshtest
+16:31: ------ Switch IP: 10.40.1.162 ------
+16:31: Command:
+16:31: download image tftp://0.0.0.0/Extreme/summitX-32.7.1.9-patch1-68.xos 
+16:31: Response:
+16:31: ExitStatus:1
+16:31: Error:'download' is not recognized as an internal or external command,
+operable program or batch file.
+
+16:31: 
+16:31: Command:
+16:31: download image tftp://0.0.0.0/Extreme/summitX-32.7.1.9-patch1-68.xos 
+16:31: Response:
+16:31: 
+Pinging 127.0.0.1 with 32 bytes of data:
+Reply from 127.0.0.1: bytes=32 time=1ms TTL=128
+Reply from 127.0.0.1: bytes=32 time=1ms TTL=128
+Reply from 127.0.0.1: bytes=32 time=1ms TTL=128
+Reply from 127.0.0.1: bytes=32 time=1ms TTL=128
+
+Ping statistics for 127.0.0.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 1ms, Maximum = 1ms, Average = 1ms
+
+16:31: ------ Switch IP: 10.40.1.163 ------
+16:31: Nemohlo být vytvořeno žádné připojení, protože cílový počítač je aktivně odmítl.
+16:31: ------ Switch IP: 10.40.1.162 ------
+16:31: Command:
+16:31: download image tftp://0.0.0.0/Extreme/summitX-32.7.1.9-patch1-68.xos 
+16:31: Response:
+16:31: ExitStatus:1
+16:31: Error:'download' is not recognized as an internal or external command,
+operable program or batch file.
+
+16:31: 
+16:31: Command:
+16:31: download image tftp://0.0.0.0/Extreme/summitX-32.7.1.9-patch1-68.xos 
+16:31: Response:
+16:31: 
+Pinging 127.0.0.1 with 32 bytes of data:
+Reply from 127.0.0.1: bytes=32 time=1ms TTL=128
+Reply from 127.0.0.1: bytes=32 time=2ms TTL=128
+Reply from 127.0.0.1: bytes=32 time=1ms TTL=128
+Reply from 127.0.0.1: bytes=32 time=1ms TTL=128
+
+Ping statistics for 127.0.0.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 1ms, Maximum = 2ms, Average = 1ms
+

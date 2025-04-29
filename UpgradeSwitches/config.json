@@ -1,0 +1,18 @@
+{
+  "sshUserName": "sshtest",
+  "sshPwd": "sshtest",
+  "sshParam1": "127.0.0.1",
+  "sshParam2": "summitX-32.7.1.9-patch1-68.xos",
+  "sshParam3": "PARAM3",
+  "sshParam4": "PARAM4",
+  "sshCommand1": "download image tftp://#sshParam1#/Extreme/#sshParam2#",
+  "sshCommand2": "Command2: #sshParam1# #sshParam2# #sshParam3# #sshParam4#",
+  "sshCommand3": "Command3: #sshParam1# #sshParam2# #sshParam3# #sshParam4#",
+  "sshCommand4": "Command4: #sshParam1# #sshParam2# #sshParam3# #sshParam4#",
+  "sshIpList": [
+    "10.40.1.162",
+    "10.40.1.163",
+    "10.40.1.162",
+    "10.40.1.162",
+  ]
+}
