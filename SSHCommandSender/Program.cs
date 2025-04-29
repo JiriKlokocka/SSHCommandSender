@@ -1,5 +1,12 @@
 ﻿using Renci.SshNet;
+using System.Runtime.Intrinsics.X86;
+using System;
+using System.IO;
+using System.Threading;
 using System.Text.Json;
+using System.Text.RegularExpressions;
+using System.Text;
+
 
 //sshConnect zdroj:
 //https://stackoverflow.com/questions/30883237/how-to-run-commands-on-ssh-server-in-c
@@ -11,6 +18,9 @@ namespace SSHCommandSender
 {
     internal class Program
     {
+        SshClient sshClient;
+        IDictionary<Renci.SshNet.Common.TerminalModes, uint> modes = new Dictionary<Renci.SshNet.Common.TerminalModes, uint>();
+        
         private readonly JsonSerializerOptions _options = new() { PropertyNameCaseInsensitive = true, AllowTrailingCommas = true};
         private string configFileName = "config.json";
         private static LogWriter logWriter;
@@ -31,6 +41,7 @@ namespace SSHCommandSender
         //Start
         public void Start(string[] args) {
             
+
             logWriter = new LogWriter(); //vytvoreni instance Loggeru (zaroven vypisuje na obrazovku)
 
             //============================ Nacteni konfigurace ze souboru config.json ============================
@@ -151,9 +162,10 @@ namespace SSHCommandSender
                 
                 try //zachyceni pripadne chyby
                 {
+                    
                     //Pripojeni SSH
                     var connInfo = new Renci.SshNet.PasswordConnectionInfo(switchIp, 22, config.sshUserName, sshPwd);
-                    var sshClient = new Renci.SshNet.SshClient(connInfo);
+                    sshClient = new Renci.SshNet.SshClient(connInfo);
                     sshClient.Connect();
 
                     //Vytvorteni a vypis prikazu 1
@@ -186,7 +198,7 @@ namespace SSHCommandSender
                     sshClient.Disconnect(); //SSH konec
                 }
                 catch (Exception ex) {
-                    Log(ex.Message, ConsoleColor.Red); //vypis pripadne chyby
+                    Log(ex.ToString(), ConsoleColor.Red); //vypis pripadne chyby
                 }
                 Console.WriteLine();
             }
@@ -233,15 +245,172 @@ namespace SSHCommandSender
             Log($"{commandText}", ConsoleColor.Cyan); // Vypis odesilaneho prikazu
 
             Log($"Odpoved:");
-            using (var command = sshClient.CreateCommand(commandText))
+
+            //var inputByteArray = Encoding.UTF8.GetBytes("\naaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaa\n");
+            var inputByteArray = Encoding.UTF8.GetBytes("b");
+
+            using (var command = sshClient.CreateCommand("dir"))
             {
-                var output = command.Execute();
-                if (command.ExitStatus != 0)
+                var asyncResult = command.BeginExecute();
+                command.OutputStream.CopyTo(Console.OpenStandardOutput());
+                command.EndExecute(asyncResult);
+            }
+
+
+            //using (var command = sshClient.CreateCommand("dir"))
+            using (var command = sshClient.CreateCommand("rmdir ____TESTDIR /S"))
+            {
+                var asyncResult = command.BeginExecute();
+                using (var inputStream = command.CreateInputStream())
                 {
-                    Log($"ExitStatus:{command.ExitStatus}", ConsoleColor.Red);
-                    Log($"Error:{command.Error}", ConsoleColor.Red);
+                    inputStream.Write(inputByteArray, 0, inputByteArray.Length);
+                    //inputStream.Flush();
                 }
-                Log($"{output}", ConsoleColor.Green);
+                command.OutputStream.CopyTo(Console.OpenStandardOutput());
+                command.EndExecute(asyncResult);
+            }
+
+
+            //rmdir ____TESTDIR /S
+
+            //using (SshCommand command = sshClient.CreateCommand("rmdir ____TESTDIR /S"))
+            //{
+
+            /*
+            modes.Add(Renci.SshNet.Common.TerminalModes.ECHO, 53);
+            ShellStream shellStreamSSH = sshClient.CreateShellStream("xterm", 80, 24, 800, 600, 2048, modes);
+            //ShellStream shellStreamSSH = sshClient.CreateShellStream("xterm", 80, 60, 800, 600, 65536);
+            
+            Thread.Sleep(1000);
+            
+            // Get logged in and get user prompt
+            string prompt = shellStreamSSH.Expect(new Regex(@"[$#>]"));
+            Console.WriteLine(prompt);
+            Thread.Sleep(1000);
+
+            // Send command and expect password or user prompt
+            shellStreamSSH.WriteLine("rmdir ____TESTDIR /S");
+            Thread.Sleep(200);
+            prompt = shellStreamSSH.Expect(new Regex(@"([$#?])"));
+            Thread.Sleep(1000);
+            Console.WriteLine(prompt);
+
+            // Check to send password
+            if (prompt.Contains("?"))
+            {
+                // Send password
+                shellStreamSSH.WriteLine("n");
+                prompt = shellStreamSSH.Expect(new Regex(@"[$#>]"));
+                Thread.Sleep(1000);
+                Console.WriteLine(prompt);
+            }
+            */
+
+
+
+
+            /*
+            StreamReader reader = new StreamReader(shellStreamSSH);
+
+            //shellStreamSSH.WriteLine("rmdir ____TESTDIR /S");
+
+            shellStreamSSH.WriteLine(commandText);
+            //Thread.Sleep(500);
+            shellStreamSSH.Flush();
+            shellStreamSSH.Expect(new Regex(@"[.]"));
+            while (shellStreamSSH.DataAvailable)
+            {
+                Console.WriteLine(shellStreamSSH.ReadLine());
+            }
+            */
+
+
+
+            //var output = shellStreamSSH.Expect(new Regex(@"[.]"));
+
+            //Console.WriteLine(output);
+
+            //Console.WriteLine(output);
+
+            /*output = shellStreamSSH.Expect(new Regex(@"([$#>:])"));
+            Console.WriteLine(output);
+            shellStreamSSH.WriteLine("n");
+            Console.WriteLine(output);*/
+
+            /*
+            Thread thread = new Thread(() => recvSSHData(shellStreamSSH));
+
+            thread.Start();
+
+            while (true)
+            {
+                string cmd = Console.ReadLine();
+
+                shellStreamSSH.Write(cmd + "\n");
+                shellStreamSSH.Flush();
+            }
+            */
+
+            /*
+              var asyncExecute = command.BeginExecute();
+                command.OutputStream.CopyTo(Console.OpenStandardOutput());
+                command.EndExecute(asyncExecute);
+             */
+
+
+            /*
+            var output = command.Execute();
+            if (command.ExitStatus != 0)
+            {
+                Log($"ExitStatus:{command.ExitStatus}", ConsoleColor.Red);
+                Log($"Error:{command.Error}", ConsoleColor.Red);
+            }
+            Log($"{output}", ConsoleColor.Green);
+            */
+
+            //}
+        }
+
+        private static void SwithToRoot(string password, ShellStream stream)
+        {
+            // Get logged in and get user prompt
+            string prompt = stream.Expect(new Regex(@"[>]"));
+            Console.WriteLine(prompt);
+
+            // Send command and expect password or user prompt
+            stream.WriteLine("sudo ls > null");
+            prompt = stream.Expect(new Regex(@"([>])"));
+            Console.WriteLine(prompt);
+
+            // Check to send password
+            if (prompt.Contains("?"))
+            {
+                // Send password
+                stream.WriteLine(password);
+                prompt = stream.Expect(new Regex(@"[>]"));
+                Console.WriteLine(prompt);
+            }
+        }
+
+        public static void recvSSHData(ShellStream shellStreamSSH)
+        {
+            while (true)
+            {
+                try
+                {
+                    if (shellStreamSSH != null && shellStreamSSH.DataAvailable)
+                    {
+                        string strData = shellStreamSSH.Read();
+
+                        Console.WriteLine(strData);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+
+                System.Threading.Thread.Sleep(200);
             }
         }
 
@@ -261,6 +430,30 @@ namespace SSHCommandSender
             logWriter.Log(txt);
         }
 
+        private static void WriteStream(string cmd, ShellStream stream)
+        {
+            stream.WriteLine(cmd + "; echo this-is-the-end");
+            while (stream.Length == 0)
+                Thread.Sleep(500);
+        }
+
+        private static string ReadStream(ShellStream stream)
+        {
+            StringBuilder result = new StringBuilder();
+
+            string line;
+            while (!(line = stream.ReadLine()).EndsWith("\rthis-is-the-end"))
+                result.AppendLine(line);
+
+            return result.ToString();
+        }
+
+        private static string ExecuteSudoCommand(string command, ShellStream stream)
+        {
+            WriteStream(command, stream);
+            return ReadStream(stream);
+        }
+
     }
 
     //Trida pro namapovani JSON parametru
@@ -278,6 +471,8 @@ namespace SSHCommandSender
         public string sshCommand4 { get; set; } = "";
         public List<string> sshIpList { get; set; } = new List<string>();
     }
+
+    
 }
 
 

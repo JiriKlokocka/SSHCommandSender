@@ -5,11 +5,12 @@
   "sshVariable2": "",
   "sshVariable3": "",
   "sshVariable4": "",
-  "sshCommand1": "dir",
+  "sshCommand1": "rmdir ____TESTDIR /S",
   "sshCommand2": "",
   "sshCommand3": "",
   "sshCommand4": "",
   "sshIpList": [
+    "10.40.1.162",
     "10.40.1.162"
   ]
 }
