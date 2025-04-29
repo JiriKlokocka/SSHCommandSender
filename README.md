@@ -1,4 +1,4 @@
-# UpgradeSwitches
+# SSHCommandSender
 
 Program odesílá 4 volitelné příkazy se 4 volitelnými parametry na libovolný počet ssh serverů
 
