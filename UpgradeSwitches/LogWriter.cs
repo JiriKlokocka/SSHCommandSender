@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Formats.Tar;
 
-namespace UpgradeSwitches
+namespace SSHCommandSender
 {
 
     public class LogWriter

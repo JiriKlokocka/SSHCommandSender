@@ -12,8 +12,9 @@ using System.Windows.Input;
 //https://stackoverflow.com/questions/30883237/how-to-run-commands-on-ssh-server-in-c
 //Extreme switch update zdroj:
 //https://documentation.extremenetworks.com/exos_32.3/GUID-40C25AA2-D2FE-4715-B4CA-2B7137629CA3.shtml
+//"summitX-32.7.1.9-patch1-68.xos"
 
-namespace UpgradeSwitches
+namespace SSHCommandSender
 {
     internal class Program
     {
@@ -203,20 +204,20 @@ namespace UpgradeSwitches
         private string? ReplaceSshParams( string? commandText)
         {
             if(!string.IsNullOrEmpty(commandText)) {
-                if (!string.IsNullOrEmpty(config.sshParam1)) {
-                    commandText = commandText.Replace("#sshParam1#", config.sshParam1); 
+                if (!string.IsNullOrEmpty(config.sshVariable1)) {
+                    commandText = commandText.Replace("#sshParam1#", config.sshVariable1); 
                 }
-                if (!string.IsNullOrEmpty(config.sshParam2))
+                if (!string.IsNullOrEmpty(config.sshVariable2))
                 {
-                    commandText = commandText.Replace("#sshParam2#", config.sshParam2);
+                    commandText = commandText.Replace("#sshParam2#", config.sshVariable2);
                 }
-                if (!string.IsNullOrEmpty(config.sshParam3))
+                if (!string.IsNullOrEmpty(config.sshVariable3))
                 {
-                    commandText = commandText.Replace("#sshParam3#", config.sshParam3);
+                    commandText = commandText.Replace("#sshParam3#", config.sshVariable3);
                 }
-                if (!string.IsNullOrEmpty(config.sshParam4))
+                if (!string.IsNullOrEmpty(config.sshVariable4))
                 {
-                    commandText = commandText.Replace("#sshParam4#", config.sshParam4);
+                    commandText = commandText.Replace("#sshParam4#", config.sshVariable4);
                 }
                 return commandText;
             } else
@@ -275,10 +276,10 @@ namespace UpgradeSwitches
     {
         public string sshUserName { get; set; } = "";
         public string sshPwd { get; set; } = "";
-        public string sshParam1 { get; set; } = "";
-        public string sshParam2 { get; set; } = ""; //"summitX-32.7.1.9-patch1-68.xos"
-        public string sshParam3 { get; set; } = "";
-        public string sshParam4 { get; set; } = "";
+        public string sshVariable1 { get; set; } = "";
+        public string sshVariable2 { get; set; } = ""; 
+        public string sshVariable3 { get; set; } = "";
+        public string sshVariable4 { get; set; } = "";
         public string sshCommand1 { get; set; } = "";
         public string sshCommand2 { get; set; } = "";
         public string sshCommand3 { get; set; } = "";
@@ -286,26 +287,7 @@ namespace UpgradeSwitches
         public List<string> sshIpList { get; set; } = new List<string>();
     }
     /* ------ json file format --------
-        
-    {
-        "sshUserName":"sshtest",
-        "sshPwd":"sshtest",
-        "sshParam1":"",
-        "sshParam2":"",
-        "sshParam3":"",
-        "sshParam4":"",
-        "sshCommand1":"",
-        "sshCommand2":"",
-        "sshCommand3":"",
-        "sshCommand4":"",
-        sshIpList:
-        [
-            { "10.40.1.162" },
-            { "10.40.1.163" },
-            { "10.40.1.162" },
-            { "10.40.1.162" },
-        ]
-    }
+   
     
     */
 }
