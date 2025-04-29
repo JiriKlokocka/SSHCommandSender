@@ -1,0 +1,43 @@
+
+Program start : 29.04.2025 12:47
+-------------------------------
+12:47: Zadej run nebo test
+12:47: Zvolen rezim TEST
+12:47: ------ Pripojuji se SSH k IP: 10.40.1.162 ------
+12:47: Prikaz v SSH:
+12:47: echo Command1: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+12:47: Odpoved:
+12:47: Command1: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+
+12:47: Prikaz v SSH:
+12:47: echo Command2: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+12:47: Odpoved:
+12:47: Command2: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+
+12:47: Prikaz v SSH:
+12:47: echo Command3: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+12:47: Odpoved:
+12:47: Command3: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+
+12:47: ------ Pripojuji se SSH k IP: 10.40.1.163 ------
+12:47: Nemohlo být vytvořeno žádné připojení, protože cílový počítač je aktivně odmítl.
+12:47: ------ Pripojuji se SSH k IP: 10.40.1.162 ------
+12:47: Prikaz v SSH:
+12:47: echo Command1: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+12:47: Odpoved:
+12:47: Command1: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+
+12:47: Prikaz v SSH:
+12:47: echo Command2: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+12:47: Odpoved:
+12:47: Command2: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+
+12:47: Prikaz v SSH:
+12:47: echo Command3: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+12:47: Odpoved:
+12:47: Command3: #sshVariable1# #sshVariable2# #sshVariable3# #sshVariable4#
+
+12:47: ------ Pripojuji se SSH k IP: 127.0.0.1 ------
+12:48: Nemohlo být vytvořeno žádné připojení, protože cílový počítač je aktivně odmítl.
+12:48: ------ Pripojuji se SSH k IP: 127.0.0.1 ------
+12:48: Nemohlo být vytvořeno žádné připojení, protože cílový počítač je aktivně odmítl.

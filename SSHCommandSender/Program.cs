@@ -1,12 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using Renci.SshNet;
-using System.ComponentModel.Design;
-using System.IO;
-using System.Net.NetworkInformation;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
+﻿using Renci.SshNet;
 using System.Text.Json;
-using System.Windows.Input;
 
 //sshConnect zdroj:
 //https://stackoverflow.com/questions/30883237/how-to-run-commands-on-ssh-server-in-c
@@ -20,7 +13,6 @@ namespace SSHCommandSender
     {
         private readonly JsonSerializerOptions _options = new() { PropertyNameCaseInsensitive = true, AllowTrailingCommas = true};
         private string configFileName = "config.json";
-        private SshClient sshclient;
         private static LogWriter logWriter;
         private Config config;
         private bool testOnly;
@@ -286,10 +278,6 @@ namespace SSHCommandSender
         public string sshCommand4 { get; set; } = "";
         public List<string> sshIpList { get; set; } = new List<string>();
     }
-    /* ------ json file format --------
-   
-    
-    */
 }
 
 /*
